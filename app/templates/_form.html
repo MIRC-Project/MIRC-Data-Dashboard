@@ -1,0 +1,47 @@
+<h4>How can I view the data?</h4>
+<p>All server-side data we have recorded can be accessed by entering a year, month and day in the three text fields below:</p>
+
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <table>
+        <tr>
+            <td style="padding-right: 10px;">{{ form.year.label }}</td>
+            <td style="padding-right: 25px;">{{ form.year( size = 4, class = "form-control" + (" is-invalid" if form.year.errors else "") + " rounded-0 shadow-none", **{"placeholder": "eg. 2022", "autocomplete": "off"}) }}</td>
+
+            <td style="padding-right: 10px;">{{ form.month.label }}</td>
+            <td style="padding-right: 25px;">{{ form.month( size = 4, class = "form-control" + (" is-invalid" if form.month.errors else "") + " rounded-0 shadow-none", **{"placeholder": "eg. 08", "autocomplete": "off"}) }}</td>
+
+            <td style="padding-right: 10px;">{{ form.day.label }}</td>
+            <td style="padding-right: 25px;">{{ form.day( size = 4, class = "form-control" + (" is-invalid" if form.day.errors else "") + " rounded-0 shadow-none", **{"placeholder": "eg. 02", "autocomplete": "off"}) }}</td>
+
+            <td>{{ form.submit(class = "form-control btn btn-dark") }}</td>
+        </tr>
+    </table>
+</form>
+
+<br>
+
+<h5>Notes</h5>
+<ul>
+    <li>On integers must be entered into these text fields</li>
+    <li>The acceptable format for <b>Year</b> is <b>YYYY</b> eg. 1990 - 2022</li>
+    <li>The acceptable format for <b>Month</b> is <b>MM</b> eg. 01 - 12</li>
+    <li>The acceptable format for <b>Day</b> is <b>DD</b> eg. 01 - 31</li>
+    <li>Some YYYY-MM-DD combinations may result in blank graphs which means that no clients performed an internet measurement to the server</li>
+</ul>
+
+<br>
+
+<p>We have made the dates at which clients performed an internet measurement available in the dropdown below:</p>
+
+<div class="dropdown">
+    <b>Client Records:</b>
+    <a class="btn btn-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <i>YYYY-MM-DD</i>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="overflow-x: hidden; max-height: 200px;">
+        {% for item in dates %}
+        <li><a class="dropdown-item" href="#">{{ item.year }} - {{ item.month }} - {{ item.day }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

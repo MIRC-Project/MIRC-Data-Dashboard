@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %} {% include "_form.html" %}
+<hr>
+<div>
+    <iframe src='/static/throughput.html' width="100%" height="370"></iframe>
+</div>
+<hr>
+<div>
+    <iframe src='/static/avg-round-trip.html' width="100%" height="370"></iframe>
+</div>
+<hr>
+<div>
+    <iframe src='/static/min-round-trip.html' width="100%" height="370"></iframe>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block content %} {% if current_user.is_authenticated %}
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <table>
+        <tr>
+            <td>
+                <h5>{{ form.body.label }}</h5>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding-right: 10px;">{{ form.body( cols=175, rows=4, class = "form-control" + (" is-invalid" if form.body.errors else "") + " rounded-0 shadow-none", **{"placeholder": "Say Something ...", "autocomplete": "off"}) }}</td>
+            <td>{{ form.submit(class = "form-control btn btn-dark") }}</td>
+
+        </tr>
+    </table>
+</form>
+{% else %}
+<h5><a href="{{ url_for('login') }}">Log in</a> or <a href="{{ url_for('register') }}">Register</a> to post a comment!</h5>
+{% endif %}
+<hr>
+
+<body>
+    {% if posts.items == [] %}
+    <h5>There are no Posts in this Thread!</h5>
+    {% endif %}
+
+    <ul class="list-group ">
+        {% for post in posts.items %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+
+                <div style="font-size: 16px;">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 15px;"><span class="badge bg-info">{{ (posts.page - 1) * 10 + loop.index }}</span></td>
+                            <td style="padding-right: 15px;"><img src="{{ post.author.avatar(36) }}"></td>
+                            <td class="fw-bold"><a href="{{ url_for('user', username=post.author.username) }}">{{ post.author.username }}</a> says</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td style="font-size: 14px;">{{ post.body }}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+
+            </div>
+            <span style="font-size: 10px;" class="badge bg-success rounded-pill">{{ moment(post.timestamp).format('LLL') }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <div style="text-align: right;">
+        {% if prev_url %}
+        <a class="btn btn-dark btn-sm" href="?page=1" role="button">❮❮</a>
+        <a class="btn btn-dark btn-sm" href="{{ prev_url }}" role="button">⮜</a> {% else %}
+        <button type="button" class="btn btn-secondary btn-sm" disabled>❮❮</button>
+        <button type="button" class="btn btn-secondary btn-sm" disabled>⮜</button> {% endif %} {% if next_url %}
+        <a class="btn btn-dark btn-sm" href="{{ next_url }}" role="button">⮞</a>
+        <a class="btn btn-dark btn-sm" href="?page={{ posts.pages }}" role="button">❯❯</a> {% else %}
+        <button type="button" class="btn btn-secondary btn-sm" disabled>⮞</button>
+        <button type="button" class="btn btn-secondary btn-sm" disabled>❯❯</button> {% endif %}
+
+        <p class="text-right mt-3">
+            Showing page {{ posts.page }} of {{ posts.pages }}
+        </p>
+    </div>
+
+    {% endblock %}
+    <!-- 
+<div>
+    <p>
+        {{ post.body }} by {{ post.author.username }}
+    </p>
+</div> -->
